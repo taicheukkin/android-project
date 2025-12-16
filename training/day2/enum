@@ -11,7 +11,17 @@ println(Direction.NORTH.direction) // north
     println(Direction.SOUTH.name)// SOUTH
 
     Direction.WEST.printData() //Direction=West and Distance=30
+
+val direction = Direction.valueOf("EAST")
+    // similar to Direction.EAST
+when(direction){
+    Direction.EAST->println("The direction is East")
+    Direction.WEST->println("The direction is West")
+    Direction.NORTH->println("The direction is North")
+    Direction.SOUTH->println("The direction is SOUTH")
+} // similar to switch statement
 }
+
 
 enum class Direction(var direction:String, var distance : Int) {
     NORTH("north", 10),
@@ -27,7 +37,6 @@ enum class Direction(var direction:String, var distance : Int) {
 
 
 
-//Direction.values() - Returns an array of all enum entries: [NORTH, SOUTH, EAST, WEST]
 
 
 fun main() {
