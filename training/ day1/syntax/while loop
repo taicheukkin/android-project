@@ -1,0 +1,21 @@
+fun main() {
+    var number: Int = 0
+    outer@ while (number < 10) {
+        number++
+        if (number in 5..7) {
+            continue // the rest of the code will not continue
+        }
+        println("number:$number")
+        var i: Int = 10
+        while (i > 0) {
+            i--
+            println("i= $i")
+            if (i == 4) {
+                break@outer // break the outer loop
+            }
+        }
+    }
+    //do{
+    // println(number++)} // at least execute once
+//while(number==0)
+}
