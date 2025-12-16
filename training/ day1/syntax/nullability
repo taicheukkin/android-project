@@ -1,0 +1,26 @@
+// null value basically assign the variable nothing
+// no memory reference
+// throw null pointer exception
+// if you perform arithmetic operation to null value
+
+fun main(args: Array<String>) {
+    var text: String ?= "Name"
+    text=null
+
+    if (text != null) {
+        print(text.length)
+    } else {
+        print(null)
+    }
+}
+//equivalent to print(text?.length)
+
+//text!!.length would cause a syntax error or a runtime exception
+// if text is null,
+// whereas text.length might be a standard way to get the character count.
+
+// text?: "the variable is null"
+// it will print the string if text is null
+
+// you cannot assign null value unless use optional chain ?=
+//text.length get the length of character
