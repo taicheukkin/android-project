@@ -1,0 +1,17 @@
+// inner class is the class declared inside the class,
+// normally has close relationship with outside class
+fun main(args: Array<String>) {
+    val listView = ListView(arrayOf("name1","name2","name3","name4",
+        "name5")
+    )
+    listView.ListViewItems().displayItem(2)
+}
+
+class ListView(val items: Array<String>) {
+    inner class ListViewItems(){
+        fun displayItem(position :Int)
+        {
+            println(items[position]) //Directly accesses outer class's 'items'
+        }
+    }
+}
