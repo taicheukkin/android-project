@@ -1,0 +1,13 @@
+fun main(args: Array<String>) {
+    val user = User(firstName = "Alex", lastName = "Dobbin", age=23)
+  //  User.favoriteMovie="chilli pepper" // it should be included
+    println(user.favoriteMovie)// error because it is initialized when it is assigned to other variable
+}
+
+class User(val firstName: String, val lastName: String, val age: Int) {
+    lateinit var favoriteMovie:String // initialization later to prevent null pointer exception
+    // A Null Pointer Exception (NPE) is a common runtime error in programming that occurs when code attempts to use an object reference that points to nowhere
+    //The NullPointerException (NPE) typically occurs when you declare a variable but did not create an object and assign it to the variable
+   // the integer compiled to primitive class, rather than classes,
+//  lateinit cannot be used for primitive class
+}
