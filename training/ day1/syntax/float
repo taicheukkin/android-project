@@ -1,0 +1,9 @@
+fun main(){
+    val myNumber=2.0F // float have suffix F
+    val mySecondNumber=2.0 // double don't have letter
+    println(myNumber)
+    println(mySecondNumber)
+}
+
+// more precision is required to use float instead of double
+// val mySecondNumber Double = 2 will result error
