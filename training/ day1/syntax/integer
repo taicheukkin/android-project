@@ -1,0 +1,38 @@
+fun main(){
+    val integerMaxValue = Int.MAX_VALUE
+    val integerMinValue = Int.MIN_VALUE
+
+
+    println("Integer max value:$integerMaxValue")
+    println("Integer min value:$integerMinValue")
+    //Integer max value:2147483647
+    // Integer min value:-2147483648
+
+    val byteMaxValue = Byte.MAX_VALUE
+    val byteMinValue = Byte.MIN_VALUE
+    println("Byte max value:$byteMaxValue")
+    println("Byte min value:$byteMinValue")
+    //Byte max value:127
+    //Byte min value:-128
+
+    val shortMaxValue = Short.MAX_VALUE
+    val shortMinValue = Short.MIN_VALUE
+    println("Short max value:$shortMaxValue")
+    println("Short min value:$shortMinValue")
+    //Short max value:32767
+    //Short min value:-32768
+
+    val longMaxValue = Long.MAX_VALUE
+    val longMinValue = Long.MIN_VALUE
+    println("Long max value:$longMaxValue")
+    println("Long min value:$longMinValue")
+    //Long max value:9223372036854775807
+    //Long min value:-9223372036854775808
+val myNumber=28
+// if it is not explicitly declared,it will be integer variable type
+val a=288888888888888
+// if it is perceived as long , because it is bigger than the max value of in
+val b=2L
+// you declared long variable like this besides b:Long=2
+
+}
