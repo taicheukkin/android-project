@@ -1,0 +1,15 @@
+fun main(args: Array<String>) {
+    val names=arrayOf("mary","Ivan","node")
+    val mixedElement=arrayOf(4,5,6,7,8,9,"name1","a")
+
+    names[0]="Alex"
+    println("first name: ${names[0]}")
+    println("the size of names: ${names.size}")
+for(i in mixedElement){
+    if(i is String){
+        println(i)
+    }
+}
+}
+
+// check inlay hints in setting to check whether the type hints is switched on
