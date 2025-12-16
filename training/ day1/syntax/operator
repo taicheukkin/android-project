@@ -1,0 +1,32 @@
+fun main(){
+    var x=5
+    val y=4.0
+    println("x+y=${x+y}")
+    println("x+y=${x-y}")
+    println("x+y=${x*y}")
+    println("x+y=${x/y}")// it will not show fractional part
+    // if y is not double
+    println("x+y=${x%y}")
+    println("3+4*3= ${(3+3)*4}")
+
+    var result= x+y
+    result+= 2
+
+    println("result=$result")
+    result-=2
+    println("result=$result")
+
+    result*=2
+    println("result=$result")
+
+    result/=2
+    println("result=$result")
+
+    result%=2
+    println("result=$result")
+
+    x=0
+
+    println("x++=${x++}") // 0 because it will output the value of x after incrementation of 1
+    println("++x=${++x}")// 2 because it increments 1 first and output in the console
+}
