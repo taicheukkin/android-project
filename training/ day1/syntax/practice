@@ -1,0 +1,25 @@
+fun main() {
+    val numbers = arrayOf(1, 2, 0, 4,8)
+    compare(numbers, compare = "max")
+}
+
+fun compare(numbers: Array<Int>, compare: String) {
+    var target = numbers[0]
+    if (compare == "max") {
+        for (n in 1 until numbers.size) {
+            if (numbers[n] >= target) {
+                target = numbers[n]
+            }
+        }
+        println("max number:$target")
+    } else if (compare == "min") {
+        for (n in 1 until numbers.size) {
+            if (target >= numbers[n]) {
+                target = numbers[n]
+            }
+        }
+        println("min number: $target")
+    }
+
+}
+
