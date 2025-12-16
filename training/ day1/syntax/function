@@ -1,0 +1,39 @@
+import kotlin.math.max
+
+fun main(args: Array<String>) {
+    sayHello(name = "Alex", age = 12)
+    val hasInternetConnection = true
+    if (hasInternetConnection) {
+        getData(13) // the value you set override default value
+    } else {
+        showMessage()
+    }
+    val max = getMax(a = 5, b = 9) // the default value of c is
+                                 // getData() is 10
+    println(max)
+}
+
+fun sayHello(name: String, age: Int) { //declared as val, which cannot reassigned
+    val number = age // number cannot get from outside of function
+    println("Hello, $name! Your age is $number")
+}
+
+fun getData(data:Int=10): Int {
+    println("your data is $data")
+    return data
+}
+
+fun showMessage() {
+    println("There's no internet connection")
+}
+
+fun getMax(a:Int,b:Int,c:Int=getData()): Int {
+    if (a > b && a>c){
+        return a
+  }
+    else if (b < c && b>a){
+        return b
+    }
+    else
+        return c
+}
