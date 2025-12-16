@@ -1,0 +1,17 @@
+fun main(args: Array<String>) {
+    val user1 = User(firstName = "Alex", lastName = "Dobbin", age = 23)
+    val user2 by lazy { User(firstName = "User1", lastName = "", age = 0) }
+    // lazy initialization
+    // the object is not initialized until it is used somewhere in the code
+    println(user2.firstName)//
+}
+class User(val firstName: String, val lastName:
+String, val age: Int) {
+    init {
+        println("$firstName was created")
+    }
+}
+
+//init stands for initializer block.
+// It's a special/ block of code that runs
+// when an instance of the class is created.(without println)
