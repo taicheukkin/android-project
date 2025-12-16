@@ -1,22 +1,31 @@
 //enum is like constant, but more powerful( with function and property)
 
 fun main(args: Array<String>) {
-//    //println(Direction.WEST) /
+//    //println(Direction.WEST) 
 //    println(Direction.EAST)
 //    println(Direction.NORTH)
 //    println(Direction.SOUTH)
 
-    for (distance in Direction.values()){
-        println(distance)
-    }
+println(Direction.NORTH.direction) // north
+    println(Direction.EAST.distance)// 15
+    println(Direction.SOUTH.name)// SOUTH
+
+    Direction.WEST.printData() //Direction=West and Distance=30
 }
 
-enum class Direction(var direction:String, var distance : Int){
+enum class Direction(var direction:String, var distance : Int) {
     NORTH("north", 10),
-    SOUTH( "south", distance = 20),
+    SOUTH("south", distance = 20),
     EAST(direction = "East", distance = 15),
-    WEST(direction = "West", distance = 30),
+    WEST(direction = "West", distance = 30);
+
+    fun printData() {
+        println("Direction=$direction and Distance=$distance")
+    }
 }
+//Direction.values() - Returns an array of all enum entries: [NORTH, SOUTH, EAST, WEST]
+
+
 
 //Direction.values() - Returns an array of all enum entries: [NORTH, SOUTH, EAST, WEST]
 
@@ -51,9 +60,3 @@ When you have a lambda with only one parameter, you can refer to that parameter 
 
 
 
-enum class Direction(var direction: String, var distance: Int) {
-    NORTH("north", 10),
-    SOUTH("south", 20),
-    EAST("East", 15),
-    WEST("West", 30)
-}
