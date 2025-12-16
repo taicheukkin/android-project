@@ -1,0 +1,16 @@
+fun main() {
+    val isActive = false
+    if (isActive) {
+        println("the condition is active")
+    } else {
+        println("the condition is not active")
+    }
+}
+
+// ! means not  eg.if(!isActiv)
+//%% means and  eg. if(isActive=true%%speed=122)
+//|| means or  eg. if (isActive=false||speed=122)
+// you assign the if statement to the variable
+// eg. speed= if(isActive=true) 100 else "none"
+// if you want to align code, you can click code(navigation),and click reformat code
+// or ctrl +Alt+L
