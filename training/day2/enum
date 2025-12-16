@@ -1,0 +1,59 @@
+//enum is like constant, but more powerful( with function and property)
+
+fun main(args: Array<String>) {
+//    //println(Direction.WEST) /
+//    println(Direction.EAST)
+//    println(Direction.NORTH)
+//    println(Direction.SOUTH)
+
+    for (distance in Direction.values()){
+        println(distance)
+    }
+}
+
+enum class Direction(var direction:String, var distance : Int){
+    NORTH("north", 10),
+    SOUTH( "south", distance = 20),
+    EAST(direction = "East", distance = 15),
+    WEST(direction = "West", distance = 30),
+}
+
+//Direction.values() - Returns an array of all enum entries: [NORTH, SOUTH, EAST, WEST]
+
+
+fun main() {
+    // Get all distances in a loop
+    println("All distances:")
+    for (dir in Direction.values()) {
+        println("${dir.name}: ${dir.distance}")
+    }
+
+//it is an implicit name of a single parameter in Kotlin lambda expressions. It's a shorthand/shortcut that makes code more concise.
+
+What it means:
+When you have a lambda with only one parameter, you can refer to that parameter as it instead of giving it an explicit name.
+    // Get as a list
+    val allDistances = Direction.values().map { it.distance }
+    println("\nDistance list: $allDistances")
+
+    // Calculate total distance
+    val totalDistance = Direction.values().sumOf { it.distance }
+    println("Total distance: $totalDistance") // 75
+
+    // Find maximum distance
+    val maxDistance = Direction.values().maxOf { it.distance }
+    println("Maximum distance: $maxDistance") // 30
+
+    // Find direction with maximum distance
+    val farthestDirection = Direction.values().maxByOrNull { it.distance }
+    println("Farthest direction: ${farthestDirection?.name}") // WEST
+}
+
+
+
+enum class Direction(var direction: String, var distance: Int) {
+    NORTH("north", 10),
+    SOUTH("south", 20),
+    EAST("East", 15),
+    WEST("West", 30)
+}
