@@ -1,0 +1,7 @@
+fun main(){
+    val myCharValue:Char= 'D'// only stored single character and single quotation mark
+    val myBooleanValue:Boolean= true
+    println("myCharValue=$myCharValue and myBooleanValue=$myBooleanValue")
+}
+
+// byte short long float double char boolean
