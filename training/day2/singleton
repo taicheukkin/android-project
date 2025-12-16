@@ -1,1 +1,37 @@
+// singleton want to have only one instance of object
+// if you have database
+// you don't want to create multiple instance of database that waste your memory
 
+fun main(args: Array<String>) {
+ val instance1= Database.getInstance() // Database() is not incorrect, because of private keyword
+ val instance2= Database.getInstance()
+    println(instance1)
+    println(instance2)// same code as instance1
+}
+class Database private constructor() {
+    companion object {  //you can have property and function without instance of object
+      private var instance: Database? = null
+        fun getInstance(): Database? {
+            if (instance == null) {
+                instance = Database()
+            }
+            return instance
+        }
+    }
+}
+
+object Database // we cannot other class, because singleton
+
+
+
+// or create object directly
+fun main(args: Array<String>) {
+     println(Database)
+     println(Database) // the same code as first one
+ }
+
+ object Database {  // only one instance is created
+     init {
+         println("Created Database")
+     }
+ }
