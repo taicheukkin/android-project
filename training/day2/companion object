@@ -1,0 +1,15 @@
+fun main(args: Array<String>) {
+   var result= Calculator.sum(a=1,b=2)
+    println(result) 
+// val result=calculator.sum(a:5,b=10) // belong to the class, not object itself
+   // println(result)
+  // var max:Int =Int.Max_value   it is the example of using companion object.  
+}
+class Calculator {
+    companion object{ // belong to the class, not object itself
+        fun sum(a:Int,b:Int):Int{
+            return a+b
+        }   
+    }
+
+}
