@@ -1,0 +1,67 @@
+fun main(args: Array<String>) {
+    val User1 = User(name = "Alex")
+    val User2 = User(name = "John", lastName = "Smith")
+    println("Name:${User1.name}")
+    println("lastName:${User1.lastName}")
+    println("Age:${User1.age}")
+
+    println("Name:${User2.name}")
+    println("lastName:${User2.lastName}")
+    println("Age:${User2.age}")
+}
+
+// we need secondary constructor,in case user don't value to parameter
+class User( name: String, var lastName: String="Lastname" // provide default value to primary constuctor
+             , var age: Int=10) {
+
+    var name: String //initial block
+//    constructor(name: String):this(name, "LastName",age=0)
+//    {println("2nd")}// primary constructor store property value
+//
+//    constructor(name:String, lastName:String) : this(name,lastName,age=0){
+//        println("3rd")
+//    }
+
+   // call primary constructor from secondary constructor
+  // secondary constructor only take first parameter and calls the primary constructor
+  // secondary constructor cannot call property(no var)
+
+
+    // two method(primary and secondary constructor)
+    // for creating default value
+    // if you want to execute some when you create an object you can use secondary constructor
+    // secondary constructor can hava block of code
+    // you can only use one of them
+
+    init {
+        if (name.lowercase().startsWith("a")) {
+            this.name = name
+        } else {
+            this.name = "User"// validation before initialization
+            println("the name doesn't start with letter a")
+        }
+    }
+}
+// name is property, not constructor
+// this.name is constructor
+
+
+
+//getter and setter
+////
+////{var firstName=firstName
+////    get(){
+////        return "FirstName:$field" // can be called by this.firstName
+////    }
+////    set(value){
+////        field=value // can be called by this.firstName=xxx in main function
+////    } // field is only used in getter and setter
+////    // to prevent infinity loop, because firstName =value(initialization)
+       //  call setter
+////}
+////
+////// equivalent to following code
+////// fun setFirstName(newValue:String){
+//////this.firstName=newValue}
+////// fun getFirstName():String{
+////// return this.firstName}
