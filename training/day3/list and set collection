@@ -1,0 +1,31 @@
+// list and set collection
+
+fun main(args: Array<String>) {
+//    val names=mutableListOf<String>("Name1", "Name2", "Name3"
+//    )
+//    names.add("Name 4")
+//    names.remove(element="Name2")
+//    names.removeAt(names.size)
+//    names.forEach{println(it)}
+
+val user1=User(name="Name 1")
+    val user2=User(name="Name 3")
+    val user3=User(name="Name 3")
+    val user4=User(name="Name 4")
+
+    val names=mutableSetOf<User>(user1, user2, user3,user4)
+
+   names.forEach { println(it) } // duplicates will not be printed
+}
+
+data class User(val name:String) //
+// expected output without data Class
+// User@7ba4f24f
+//User@3b9a45b3
+//User@7699a589
+//User@58372a00
+
+// expected output with data class
+//User(name=Name 1)
+//User(name=Name 3)
+//User(name=Name 4)
