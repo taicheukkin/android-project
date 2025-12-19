@@ -1,0 +1,233 @@
+// ============================================================
+// STRING REPRESENTATION AND JOIN FUNCTIONS IN KOTLIN
+// Demonstrates how to convert collections to readable strings
+// ============================================================
+
+fun main() {
+    // 1. BASIC COLLECTION OF STRINGS
+    val numbersStrings = listOf("one", "two", "three", "four")
+    
+    println("\n=== 1. BASIC toString() REPRESENTATION ===")
+    // Simply printing a collection calls its toString() method
+    // Result: [one, two, three, four]
+    // Format: Square brackets with comma-separated elements
+    println(numbersStrings)
+    // Output: [one, two, three, four]
+    
+    // 2. joinToString() - DEFAULT BEHAVIOR
+    println("\n=== 2. joinToString() - DEFAULT USAGE ===")
+    // joinToString() converts collection to a single string with custom formatting
+    // Default parameters: separator=", ", prefix="", postfix="", limit=-1, truncated="..."
+    print(numbersStrings.joinToString())  // Note: print() not println()
+    // Output: one, two, three, four (no brackets, just comma-separated)
+    println()  // Add newline since we used print() above
+    
+    // 3. joinTo() - APPENDING TO EXISTING STRING BUILDER
+    println("\n=== 3. joinTo() - APPENDING TO STRING BUILDER ===")
+    // Create a StringBuffer (mutable string)
+    val listString = StringBuffer("The list of numbers: ")
+    // joinTo() appends collection elements to existing StringBuilder/Appendable
+    // Returns the same StringBuilder with elements appended
+    numbersStrings.joinTo(listString)  // Appends: "one, two, three, four"
+    println(listString)  // Output: The list of numbers: one, two, three, four
+    
+    // 4. CUSTOMIZING joinToString() FORMATTING
+    println("\n=== 4. CUSTOM FORMATTING WITH joinToString() ===")
+    // Custom separator, prefix, and postfix
+    val customJoin = numbersStrings.joinToString(
+        separator = "|",        // Use pipe instead of comma
+        prefix = "start: ",     // Text before first element
+        postfix = ": end"       // Text after last element
+    )
+    println(customJoin)
+    // Output: start: one|two|three|four: end
+    
+    // 5. HANDLING LARGE COLLECTIONS WITH limit AND truncated
+    println("\n=== 5. LIMITING LARGE COLLECTIONS ===")
+    // Create a list with 100 numbers (1 to 100)
+    val numbers = (1..100).toList()
+    
+    // limit parameter shows only first N elements
+    // truncated parameter shows custom text when elements are omitted
+    val limitedString = numbers.joinToString(
+        limit = 15,                    // Show only first 15 elements
+        truncated = "<...>"            // Custom truncation text
+    )
+    println(limitedString)
+    // Output: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, <...>
+    
+    // 6. TRANSFORMING ELEMENTS DURING JOIN
+    println("\n=== 6. TRANSFORMING ELEMENTS WITH LAMBDA ===")
+    // Using trailing lambda to transform each element during joining
+    val transformedJoin = numbersStrings.joinToString { element ->
+        "Element:${element.uppercase()}"  // Transform each element
+    }
+    println(transformedJoin)
+    // Output: Element:ONE, Element:TWO, Element:THREE, Element:FOUR
+    
+    // 7. MORE PRACTICAL EXAMPLES
+    println("\n=== 7. PRACTICAL REAL-WORLD EXAMPLES ===")
+    
+    // Example A: Creating SQL IN clause
+    val userIds = listOf(101, 205, 309, 412, 523)
+    val sqlQuery = "SELECT * FROM users WHERE id IN (${userIds.joinToString()})"
+    println("SQL Query: $sqlQuery")
+    // Output: SELECT * FROM users WHERE id IN (101, 205, 309, 412, 523)
+    
+    // Example B: CSV file format
+    val csvData = listOf("John", "Doe", "john@example.com", "Developer")
+    val csvLine = csvData.joinToString(separator = ",")
+    println("CSV Line: $csvLine")
+    // Output: John,Doe,john@example.com,Developer
+    
+    // Example C: URL query parameters
+    val queryParams = mapOf("search" to "kotlin", "page" to "1", "sort" to "date")
+    val url = "https://api.example.com/search?${queryParams.entries.joinToString("&") { "${it.key}=${it.value}" }}"
+    println("API URL: $url")
+    // Output: https://api.example.com/search?search=kotlin&page=1&sort=date
+    
+    // Example D: Displaying list with bullet points
+    val tasks = listOf("Write code", "Test features", "Document changes", "Deploy to production")
+    val bulletedList = tasks.joinToString(
+        separator = "\n• ",  // Newline + bullet for each item
+        prefix = "• "        // Bullet for first item
+    )
+    println("\nTo-Do List:\n$bulletedList")
+    // Output:
+    // To-Do List:
+    // • Write code
+    // • Test features
+    // • Document changes
+    // • Deploy to production
+    
+    // 8. COMPARING DIFFERENT JOIN METHODS
+    println("\n=== 8. METHOD COMPARISON ===")
+    
+    val colors = listOf("red", "green", "blue")
+    
+    println("toString(): ${colors.toString()}")
+    // [red, green, blue] - Includes brackets
+    
+    println("joinToString(): ${colors.joinToString()}")
+    // red, green, blue - Clean comma-separated
+    
+    println("joinToString(separator=\" - \"): ${colors.joinToString(separator = " - ")}")
+    // red - green - blue - Custom separator
+    
+    // 9. PERFORMANCE CONSIDERATIONS
+    println("\n=== 9. PERFORMANCE NOTES ===")
+    /*
+    Performance considerations:
+    
+    1. joinToString() vs Manual Concatenation:
+       - joinToString() is optimized and uses StringBuilder internally
+       - Manual "+" concatenation creates intermediate strings
+    
+    2. StringBuffer vs StringBuilder:
+       - StringBuffer: Thread-safe but slower
+       - StringBuilder: Not thread-safe but faster
+       - Use joinTo() when appending to existing string builders
+    
+    3. Large Collections:
+       - joinToString() with limit is efficient for large lists
+       - Consider using take() first if you only need first N elements
+    */
+    
+    // Efficient vs Inefficient example:
+    val largeList = (1..10000).toList()
+    
+    // Efficient: Uses StringBuilder internally
+    val efficient = largeList.joinToString(limit = 100)
+    
+    // Inefficient: Creates many intermediate strings
+    // var inefficient = ""
+    // for (i in 0..min(100, largeList.size-1)) {
+    //     inefficient += largeList[i] + ", "
+    // }
+    
+    println("First 100 elements of 10000: ${efficient.length} characters")
+    
+    // 10. SPECIAL CASES AND EDGE CASES
+    println("\n=== 10. EDGE CASES ===")
+    
+    // Empty collection
+    val emptyList = emptyList<String>()
+    println("Empty list joinToString(): '${emptyList.joinToString()}'")
+    // Output: '' (empty string)
+    
+    // Single element collection
+    val singleList = listOf("alone")
+    println("Single element joinToString(): '${singleList.joinToString()}'")
+    // Output: 'alone'
+    
+    // Null elements (requires nullable type)
+    val nullableList = listOf("first", null, "third")
+    println("With nulls: ${nullableList.joinToString()}")
+    // Output: first, null, third
+    
+    // 11. CHAINING WITH OTHER COLLECTION FUNCTIONS
+    println("\n=== 11. CHAINING OPERATIONS ===")
+    
+    val mixedCase = listOf("Apple", "banana", "CHERRY", "Date")
+    
+    // Chain filter, map, and joinToString
+    val result = mixedCase
+        .filter { it.length > 4 }          // Keep only words > 4 chars
+        .map { it.uppercase() }            // Convert to uppercase
+        .joinToString(separator = " | ")   // Join with custom separator
+    
+    println("Filtered and transformed: $result")
+    // Output: APPLE | BANANA | CHERRY
+    
+    // 12. CUSTOM OBJECTS WITH toString()
+    println("\n=== 12. CUSTOM OBJECTS ===")
+    
+    data class Person(val name: String, val age: Int)
+    
+    val people = listOf(
+        Person("Alice", 30),
+        Person("Bob", 25),
+        Person("Charlie", 35)
+    )
+    
+    // joinToString works with any objects that have toString()
+    println("People list: ${people.joinToString()}")
+    // Output: Person(name=Alice, age=30), Person(name=Bob, age=25), Person(name=Charlie, age=35)
+    
+    // Custom transformation for custom objects
+    val peopleSummary = people.joinToString { "${it.name} (${it.age})" }
+    println("People summary: $peopleSummary")
+    // Output: Alice (30), Bob (25), Charlie (35)
+}
+
+// ============================================================
+// SUMMARY OF KEY FUNCTIONS:
+// ============================================================
+/*
+1. toString() on collections: [element1, element2, element3]
+   - Quick debugging
+   - Default formatting
+
+2. joinToString(): element1, element2, element3
+   - Customizable formatting
+   - Control over separators, prefixes, postfixes
+   - Limit for large collections
+   - Element transformation
+
+3. joinTo(): Appends to existing StringBuilder
+   - Efficient string building
+   - Reuse existing string buffers
+
+PARAMETER REFERENCE:
+• separator: String between elements (default: ", ")
+• prefix: Text before first element (default: "")
+• postfix: Text after last element (default: "")
+• limit: Max elements to show (default: -1 = no limit)
+• truncated: Text when limit exceeded (default: "...")
+• transform: Lambda to modify each element
+
+USE CASES:
+- toString(): Quick debugging output
+- joinToString(): User-facing displays, file formats, URLs
+- joinTo(): Building complex strings incrementally
+*/
