@@ -1,0 +1,220 @@
+/**
+ * DEMONSTRATION OF COLLECTION TRANSFORMATION FUNCTIONS IN KOTLIN
+ * This example shows how to transform, restructure, and flatten collections.
+ */
+
+// ====================================================
+// 1. ASSOCIATION FUNCTIONS (Create Maps from Collections)
+// ====================================================
+
+fun main() {
+    // A simple list of string numbers
+    val numbers = listOf("one", "two", "three", "four")
+
+    println("=== ASSOCIATION TRANSFORMATIONS ===")
+
+    // -----------------------------------------------------------------
+    // A) associateWith(): Creates a Map where list elements are KEYS
+    // -----------------------------------------------------------------
+    // Result: Map<String, Int> = {"one" -> 3, "two" -> 3, "three" -> 5, "four" -> 4}
+    // Each KEY (string) gets a VALUE (its length)
+    println("\n1. associateWith { it.length }:")
+    println(numbers.associateWith { it.length })
+    // Output: {one=3, two=3, three=5, four=4}
+
+    // -----------------------------------------------------------------
+    // B) associateBy(): Creates a Map where list elements are VALUES
+    // -----------------------------------------------------------------
+    // Result: Map<Int, String> = {3 -> "two", 5 -> "three", 4 -> "four"}
+    // WARNING: "one" (length=3) is OVERWRITTEN by "two" (also length=3)!
+    // When keys collide, LAST WINS by default
+    println("\n2. associateBy(String::length):")
+    println(numbers.associateBy(String::length))
+    // Output: {3=two, 5=three, 4=four}
+
+    // -----------------------------------------------------------------
+    // C) associateBy() with both key and value transformers
+    // -----------------------------------------------------------------
+    // Result: Map<String, Int> = {"O" -> 3, "T" -> 5, "F" -> 4}
+    // KEY = first character (uppercased), VALUE = string length
+    // "T" maps to 5 (from "three"), "t" from "two" becomes "T" but collides with "three"
+    println("\n3. associateBy(key = firstChar, value = length):")
+    println(
+        numbers.associateBy(
+            keySelector = { it.first().uppercase() },  // Transform KEY: first char uppercase
+            valueTransform = { it.length }              // Transform VALUE: string length
+        )
+    )
+    // Output: {O=3, T=5, F=4}
+
+    // ====================================================
+    // 2. NESTED COLLECTIONS AND FLATTENING
+    // ====================================================
+
+    // A list containing two sets of numbers
+    val numbersSets = listOf(
+        setOf(1, 2, 3, 4),    // First set
+        setOf(2, 4, 6, 7)     // Second set (note: 2 and 4 appear in both)
+    )
+
+    println("\n=== NESTED ITERATION (Manual) ===")
+
+    // -----------------------------------------------------------------
+    // Manual iteration through nested collections
+    // -----------------------------------------------------------------
+    // This is the "hard way" - manually handling nested loops
+    var iterationCount = 0
+    for (set in numbersSets) {          // Outer loop: each set
+        print("Set ${iterationCount + 1}: ")
+        for (number in set) {           // Inner loop: each element in set
+            print("$number ")
+            iterationCount++
+        }
+        println() // New line after each set
+    }
+    // Output: 
+    // Set 1: 1 2 3 4 
+    // Set 2: 2 4 6 7
+
+    println("\nTotal elements iterated manually: $iterationCount")
+
+    // ====================================================
+    // 3. FLATTEN FUNCTION (The SIMPLER way!)
+    // ====================================================
+
+    println("\n=== FLATTEN TRANSFORMATION ===")
+
+    // -----------------------------------------------------------------
+    // flatten(): Converts nested collections into a SINGLE flat list
+    // -----------------------------------------------------------------
+    // BEFORE: List<Set<Int>> = [[1, 2, 3, 4], [2, 4, 6, 7]]
+    // AFTER: List<Int> = [1, 2, 3, 4, 2, 4, 6, 7]
+    // NOTE: Duplicates are preserved! (2 and 4 appear twice)
+    val numbersFlatten = numbersSets.flatten()
+
+    println("Flattened list: $numbersFlatten")
+    // Output: [1, 2, 3, 4, 2, 4, 6, 7]
+
+    // Access elements in the flat list
+    println("Element at index 0: ${numbersFlatten[0]}")  // First element: 1
+    println("Element at index 4: ${numbersFlatten[4]}")  // Fifth element: 2 (from second set)
+    println("Element at index 7: ${numbersFlatten[7]}")  // Last element: 7
+
+    // ====================================================
+    // 4. REAL-WORLD FLATTENING SCENARIOS
+    // ====================================================
+
+    println("\n=== REAL-WORLD FLATTENING EXAMPLES ===")
+
+    // Example 1: Students and their grades
+    val studentGrades = listOf(
+        listOf(85, 90, 78),  // Student 1 grades
+        listOf(92, 88, 91),  // Student 2 grades
+        listOf(76, 82, 80)   // Student 3 grades
+    )
+
+    val allGrades = studentGrades.flatten()
+    println("All student grades: $allGrades")
+    val averageGrade = allGrades.average()
+    println("Class average: ${"%.2f".format(averageGrade)}")
+
+    // Example 2: Categories and products
+    val categories = listOf(
+        listOf("Apple", "Banana", "Orange"),     // Fruits
+        listOf("Carrot", "Broccoli", "Spinach"), // Vegetables
+        listOf("Milk", "Cheese", "Yogurt")       // Dairy
+    )
+
+    val allProducts = categories.flatten()
+    println("\nAll products in store: $allProducts")
+    println("Total product types: ${allProducts.size}")
+
+    // Example 3: With transformation (flatMap)
+    println("\n=== BONUS: flatMap() ===")
+
+    // flatMap() = flatten() + map() combined
+    // For each element, transform it to a collection, then flatten
+
+    val sentences = listOf(
+        "Hello world",
+        "Kotlin is fun",
+        "Learn programming"
+    )
+
+    // Split each sentence into words, then flatten all words
+    val allWords = sentences.flatMap { it.split(" ") }
+    println("All words from sentences: $allWords")
+    // Output: [Hello, world, Kotlin, is, fun, Learn, programming]
+
+    // Compare with manual approach:
+    val manualWords = mutableListOf<String>()
+    for (sentence in sentences) {
+        manualWords.addAll(sentence.split(" "))
+    }
+    println("Manual approach same result: ${allWords == manualWords}")
+
+    // ====================================================
+    // 5. KEY DIFFERENCES: flatten() vs flatMap()
+    // ====================================================
+
+    println("\n=== QUICK COMPARISON ===")
+
+    /*
+    flatten() vs flatMap():
+    
+    Use flatten() when:
+    - You already have nested collections
+    - You just want to combine them into one
+    
+    Use flatMap() when:
+    - You need to TRANSFORM each element into a collection
+    - Then flatten all those collections
+    
+    Example:
+    flatten(): [[1,2], [3,4]] → [1, 2, 3, 4]
+    flatMap(): ["ab", "cd"] → ["a", "b", "c", "d"]
+    */
+
+    // Practical example showing the difference
+    val nestedLists = listOf(listOf(1, 2), listOf(3, 4))
+
+    println("flatten() result: ${nestedLists.flatten()}")
+    // [1, 2, 3, 4]
+
+    println("flatMap() with transformation: ${nestedLists.flatMap { it.map { num -> num * 2 } }}")
+    // First map each number: [[2, 4], [6, 8]]
+    // Then flatten: [2, 4, 6, 8]
+
+    // ====================================================
+    // 6. PERFORMANCE CONSIDERATIONS
+    // ====================================================
+
+    println("\n=== PERFORMANCE NOTES ===")
+
+    /*
+    Time Complexity:
+    - flatten(): O(n) where n = total elements across all collections
+    - associateWith/By(): O(n) where n = collection size
+    
+    Memory:
+    - flatten() creates a NEW list with all elements
+    - Original collections remain unchanged (Kotlin collections are immutable by default)
+    
+    When to be careful:
+    - Very large nested collections (consider lazy operations with sequences)
+    - Deeply nested structures (consider recursion)
+    */
+
+    // Example with large data (using sequences for efficiency)
+    val largeData = (1..1_000_000).toList().chunked(1000)  // 1000 chunks of 1000
+
+    // Efficient way with sequences (lazy evaluation)
+    val efficientSum = largeData.asSequence()
+        .flatten()
+        .sum()
+
+    println("Sum of 1,000,000 numbers (efficient): $efficientSum")
+
+    // Inefficient way (creates intermediate collections)
+    // val inefficientSum = largeData.flatten().sum()
+}
