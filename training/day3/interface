@@ -1,0 +1,17 @@
+// interface allow implementation of function specific to the object
+//  implement onclick function specific to the UI
+
+interface Vehicle {
+    fun start()
+    fun stop()
+}
+
+class Car : Vehicle {
+    override fun start() {
+        println("Car started")
+    }
+
+    override fun stop() {
+        println("Car stopped")
+    }
+}
