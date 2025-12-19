@@ -1,0 +1,43 @@
+// new class may slight different from the origin class
+// you can inherit all property and function from origin class
+fun main(args:Array<String>) {
+    val car = Car(name = "BMR", color = "RED", engine = 1, doors = 4)
+    val plane = Plane(name = "Boeing", color = "BLUE", engine = 4, doors = 4)
+
+
+    car.move()
+    car.stop()
+    plane.move()
+    plane.stop()
+}
+// the property has declared in the main class
+open class vehicle(val name:String,val color:String){
+   open fun move(){ // open means commonly used function
+        println("$name is moving")
+    }
+    open fun stop(){
+        println("$name is stopped")
+    }
+}
+            // initialization of parameter
+class Car(name:String,color:String,val engine :Int , val doors:Int):vehicle(name,color){
+
+}
+
+class Plane( name:String, color:String,val engine :Int , val doors:Int): vehicle(name,color) {
+    //    fun move(){
+    override fun move() {
+        flying()// the flying method  override the move() to make function specific
+        super.move() // call move function from base class
+
+    }
+    fun  flying(){  // create function specific to the plane
+        println("The plane is flying")
+    }
+      // fun move(){
+//        println("$name is moving")
+//    }
+//    fun stop(){
+//        println("$name is stopped")}
+    // doesn't make sense to put here
+}
