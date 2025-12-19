@@ -1,0 +1,73 @@
+//delegation
+// with delegation , you can plug in more the one inheritance
+// from multiple clas or interface
+
+
+fun main(){
+
+}
+
+// class App: firstDelegate:A:B // it in not allowed
+
+//  interface used by firstDelegate class
+class App: A by FirstDelegate(),B by SecondDelegate(){
+    override fun print() {
+
+    }
+    override fun print2(){
+
+    }
+    val myPowerBank = PowerBank()
+    val myPhone = Phone(myPowerBank)
+
+    myPhone.makeCall()     // 📞 Calling... Battery: 50%
+    myPhone.charge()       // 🔋 PowerBank: Fully charged!
+    myPhone.makeCall()     // 📞 Calling... Battery: 100%
+
+}
+
+interface A{
+    fun print()
+}
+interface B{
+    fun print2()
+}
+
+class FirstDelegate:A{
+    override fun print() {}
+}
+
+class SecondDelegate: B{
+    override fun print() {}
+}
+
+
+// Interface = What a battery can DO
+interface Battery {
+    fun charge()
+    fun getLevel(): Int
+}
+
+// Class = Actual implementation
+class PowerBank : Battery {
+    private var level = 50
+
+    override fun charge() {
+        level = 100
+        println("🔋 PowerBank: Fully charged!")
+    }
+
+    override fun getLevel() = level
+}
+
+// Phone DELEGATES battery functions to PowerBank
+class Phone(battery: Battery) : Battery by battery {
+    fun makeCall() {
+        if (getLevel() > 20) {  // Uses DELEGATED getLevel()
+            println("📞 Calling... Battery: ${getLevel()}%")
+        } else {
+            println("⚠️ Low battery!")
+        }
+    }
+}
+
