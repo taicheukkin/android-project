@@ -1,0 +1,14 @@
+fun main(args: Array<String>) {
+    val users=mutableMapOf<Int, String>(
+        1 to "Alice",2 to "Alex",3 to "Bob"
+    ) // mutableMapOf
+    users[5]="Vlad"
+    users.remove(key=2)
+    println(users[1])// Alice
+
+    users.forEach{ t,u->println("$t and $u")}
+    // 1 and Alice
+    //3 and Bob
+    // 4 and Vlad
+
+}
