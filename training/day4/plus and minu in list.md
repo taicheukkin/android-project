@@ -1,3 +1,5 @@
+
+```kotlin
 fun main(){
     val numbers= mutableListOf("one","two","three","four")
     val plusList=numbers+"five" // [one, two, three,four.five]
@@ -5,3 +7,4 @@ fun main(){
    println(plusList)
     println(minusList)
 }// plus and minu in list
+`` kotlin
