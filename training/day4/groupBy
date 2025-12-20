@@ -1,3 +1,4 @@
+```kotlin
 // ============================================================
 // KOTLIN groupBy() FUNCTION DEMONSTRATION
 // Groups collection elements by a specified key
@@ -321,3 +322,4 @@ ALTERNATIVES:
 - associateBy(): When you need one-to-one mapping (keys unique)
 - partition(): For binary grouping (true/false conditions)
 */
+```kotlin
