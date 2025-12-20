@@ -270,3 +270,8 @@ PERFORMANCE:
 - Use sequences (asSequence()) for large collections
 - filterNotNull() is optimized for nullable collections
 */
+
+//other method
+ println(numbers.any{it.length==3})
+  println(numbers.none{it.endsWith(suffix = "1") })
+  println(numbers.all{it.length>1})
