@@ -1,0 +1,272 @@
+// ============================================================
+// KOTLIN FILTER FUNCTIONS DEMONSTRATION
+// Shows various ways to filter collections based on conditions
+// ============================================================
+
+fun main(args: Array<String>) {
+    
+    println("=== 1. BASIC LIST FILTERING ===")
+    
+    // A simple list of string numbers
+    val numbers = listOf("one", "two", "three", "four")
+    
+    // ----------------------------------------------------
+    // A) filter() - Most common filtering function
+    // ----------------------------------------------------
+    // Syntax: collection.filter { condition }
+    // Returns: New list containing only elements that satisfy the condition
+    // Note: Original 'numbers' list remains UNCHANGED (immutable)
+    val longerThan3 = numbers.filter { element ->
+        element.length > 3  // Condition: string length > 3 characters
+    }
+    println("Original: $numbers")
+    println("filter { length > 3 }: $longerThan3")
+    // Output: [three, four]
+    // Analysis: "one" (3 chars) and "two" (3 chars) are excluded
+    //           Only "three" (5 chars) and "four" (4 chars) are included
+    
+    println("\n=== 2. MAP FILTERING ===")
+    
+    // ----------------------------------------------------
+    // B) filter() on Maps
+    // ----------------------------------------------------
+    // When filtering maps, 'it' refers to Map.Entry (key-value pair)
+    // Access key with it.key, value with it.value
+    val numbersMap = mapOf(
+        "1" to 1, 
+        "2" to 2, 
+        "3" to 3, 
+        "4" to 4, 
+        "101" to 101
+    )
+    
+    // Filter map entries where:
+    // 1. Key ends with "1" AND
+    // 2. Value is greater than 100
+    val filteredMap = numbersMap.filter { entry ->
+        entry.key.endsWith(suffix = "1") &&  // Condition 1: key ends with "1"
+        entry.value > 100                    // Condition 2: value > 100
+    }
+    println("Original map: $numbersMap")
+    println("filter { key endsWith '1' && value > 100 }: $filteredMap")
+    // Output: {101=101}
+    // Analysis: 
+    // - Entry "1"=1: key ends with "1" ✓ but value (1) > 100 ✗ → excluded
+    // - Entry "101"=101: key ends with "1" ✓ and value (101) > 100 ✓ → included
+    // - Other entries don't meet both conditions
+    
+    println("\n=== 3. FILTERING WITH INDEX ===")
+    
+    // ----------------------------------------------------
+    // C) filterIndexed() - Filter using element AND index
+    // ----------------------------------------------------
+    // Syntax: filterIndexed { index, value -> condition }
+    // Parameters: index (Int), value (Element type)
+    val filteredIdx = numbers.filterIndexed { index, value ->
+        (index != 0) &&           // Condition 1: exclude first element (index 0)
+        (value.length < 5)        // Condition 2: string length < 5 characters
+    }
+    println("filterIndexed { index != 0 && length < 5 }: $filteredIdx")
+    // Output: [two, four]
+    // Analysis step by step:
+    // Index 0: "one" → (index != 0) is FALSE → excluded immediately
+    // Index 1: "two" → (index != 0) is TRUE AND length(3) < 5 is TRUE → included
+    // Index 2: "three" → (index != 0) is TRUE BUT length(5) < 5 is FALSE → excluded
+    // Index 3: "four" → (index != 0) is TRUE AND length(4) < 5 is TRUE → included
+    
+    println("\n=== 4. NEGATIVE FILTERING ===")
+    
+    // ----------------------------------------------------
+    // D) filterNot() - Opposite of filter()
+    // ----------------------------------------------------
+    // Returns elements that do NOT satisfy the condition
+    // Equivalent to: filter { !condition }
+    val filterNot = numbers.filterNot { element ->
+        element.length <= 3  // Condition: length <= 3
+    }
+    // Compare with regular filter for same result:
+    val filterEquivalent = numbers.filter { element ->
+        !(element.length <= 3)  // Same as: element.length > 3
+    }
+    
+    println("filterNot { length <= 3 }: $filterNot")
+    println("Equivalent filter { !(length <= 3) }: $filterEquivalent")
+    // Both output: [three, four]
+    // Analysis: Excludes "one" and "two" (both length = 3)
+    
+    println("\n=== 5. TYPE-BASED FILTERING ===")
+    
+    // ----------------------------------------------------
+    // E) filterIsInstance<T>() - Filter by type
+    // ----------------------------------------------------
+    // Returns only elements of specified type
+    // Useful for heterogeneous collections (mixed types)
+    val mixedList = listOf(
+        1,                      // Int
+        2,                      // Int  
+        3,                      // Int
+        4,                      // Int
+        "A",                    // String
+        "B",                    // String
+        "C",                    // String
+        "hello world",          // String
+        "Alex",                 // String
+        false                   // Boolean
+    )
+    
+    println("Mixed list contents:")
+    mixedList.forEachIndexed { index, element ->
+        println("  [$index] $element (${element::class.simpleName})")
+    }
+    
+    // Filter for only String type elements
+    val stringElements = mixedList.filterIsInstance<String>()
+    println("\nfilterIsInstance<String>(): $stringElements")
+    // Output: [A, B, C, hello world, Alex]
+    // Note: All Ints (1-4) and Boolean (false) are filtered out
+    
+    // Filter for only Int type elements
+    val intElements = mixedList.filterIsInstance<Int>()
+    println("filterIsInstance<Int>(): $intElements")
+    // Output: [1, 2, 3, 4]
+    
+    // You can chain filterIsInstance with other operations
+    println("\nUppercase strings longer than 1 character:")
+    mixedList.filterIsInstance<String>()
+        .filter { it.length > 1 }
+        .map { it.uppercase() }
+        .forEach { println("  - $it") }
+    // Output: 
+    //   - HELLO WORLD
+    //   - ALEX
+    
+    println("\n=== 6. ADDITIONAL FILTERING VARIATIONS ===")
+    
+    // ----------------------------------------------------
+    // F) filterNotNull() - Remove null values
+    // ----------------------------------------------------
+    val listWithNulls = listOf(1, null, 2, null, 3, null, 4)
+    val nonNullList = listWithNulls.filterNotNull()
+    println("filterNotNull() on [1, null, 2, null, 3, null, 4]: $nonNullList")
+    // Output: [1, 2, 3, 4]
+    
+    // ----------------------------------------------------
+    // G) filterTo() - Filter into existing mutable collection
+    // ----------------------------------------------------
+    val targetList = mutableListOf<String>()
+    numbers.filterTo(targetList) { it.length == 3 }
+    println("filterTo { length == 3 }: $targetList")
+    // Output: [one, two]
+    // Useful when you want to accumulate results
+    
+    // ----------------------------------------------------
+    // H) Partition - Split collection based on condition
+    // ----------------------------------------------------
+    // Returns Pair<List, List> where:
+    // - First list: elements that satisfy condition
+    // - Second list: elements that don't satisfy condition
+    val (longWords, shortWords) = numbers.partition { it.length > 3 }
+    println("\npartition { length > 3 }:")
+    println("  Long words (>3 chars): $longWords")
+    println("  Short words (≤3 chars): $shortWords")
+    // Output: Long: [three, four], Short: [one, two]
+    
+    println("\n=== 7. PERFORMANCE CONSIDERATIONS ===")
+    /*
+    FILTER PERFORMANCE NOTES:
+    
+    1. Time Complexity: O(n) - checks each element once
+    2. Memory: Creates NEW collection (original unchanged)
+    3. For large collections:
+       - Use asSequence() for lazy evaluation
+       - Chain filters efficiently
+    */
+    
+    // Example: Efficient filtering chain
+    val largeList = (1..1_000_000).toList()
+    
+    // Efficient (lazy evaluation - no intermediate collections)
+    val efficientResult = largeList.asSequence()
+        .filter { it % 2 == 0 }      // Even numbers
+        .filter { it > 500_000 }     // Greater than 500k
+        .take(10)                    // First 10 results
+        .toList()
+    
+    // Less efficient (creates intermediate collections)
+    // val lessEfficient = largeList
+    //     .filter { it % 2 == 0 }      // Creates intermediate list
+    //     .filter { it > 500_000 }     // Creates another intermediate list
+    //     .take(10)                    // Creates final list
+    
+    println("First 10 even numbers > 500,000 from 1M: $efficientResult")
+    
+    println("\n=== 8. REAL-WORLD USE CASES ===")
+    
+    // Case 1: User data filtering
+    data class User(val name: String, val age: Int, val active: Boolean)
+    
+    val users = listOf(
+        User("Alice", 25, true),
+        User("Bob", 17, true),
+        User("Charlie", 30, false),
+        User("Diana", 22, true),
+        User("Eve", 16, false)
+    )
+    
+    // Active adult users
+    val activeAdults = users.filter { it.active && it.age >= 18 }
+    println("Active adult users: ${activeAdults.map { it.name }}")
+    // Output: [Alice, Diana]
+    
+    // Case 2: File extension filtering
+    val files = listOf(
+        "document.pdf",
+        "photo.jpg", 
+        "data.csv",
+        "backup.zip",
+        "image.png",
+        "notes.txt"
+    )
+    
+    val imageFiles = files.filter { it.endsWith(".jpg") || it.endsWith(".png") }
+    println("Image files: $imageFiles")
+    // Output: [photo.jpg, image.png]
+    
+    // Case 3: Price range filtering
+    val products = mapOf(
+        "Laptop" to 999.99,
+        "Mouse" to 25.50,
+        "Keyboard" to 89.99,
+        "Monitor" to 299.99,
+        "Headphones" to 199.99
+    )
+    
+    val affordableProducts = products.filter { it.value in 50.0..200.0 }
+    println("Products between \$50 and \$200: ${affordableProducts.keys}")
+    // Output: [Keyboard, Headphones]
+}
+
+// ============================================================
+// QUICK REFERENCE GUIDE
+// ============================================================
+/*
+COMMON FILTER FUNCTIONS:
+1. filter { condition }           - Elements satisfying condition
+2. filterNot { condition }        - Elements NOT satisfying condition  
+3. filterIndexed { i, v -> }      - Filter using index and value
+4. filterIsInstance<T>()          - Elements of specific type
+5. filterNotNull()                - Remove null values
+6. partition { condition }        - Split into two lists (matching/not matching)
+
+KEY POINTS:
+- All filters return NEW collections (original unchanged)
+- Use predicates (lambda returning Boolean) for conditions
+- Can chain multiple filters: .filter { }.filter { }
+- For large data: use .asSequence() for better performance
+- Maps filter on entries: it.key and it.value
+
+PERFORMANCE:
+- Prefer single complex condition over multiple filter() calls
+- Use sequences (asSequence()) for large collections
+- filterNotNull() is optimized for nullable collections
+*/
