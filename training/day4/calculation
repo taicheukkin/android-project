@@ -1,0 +1,17 @@
+```kotlin
+fun main(){
+    val numbers=listOf(6,10,14,4,100) // Creates a list of 5 integers
+    
+    println("the sum is ${numbers.sum()}") // Sums all elements: 6+10+14+4+100=134
+    
+    println("the count is ${numbers.count()}") // Counts number of elements: 5
+    
+    println("the average is ${numbers.average()}") // Calculates average: 134/5=26.8
+    
+    println("the max value is ${numbers.maxOrNull()}") // Finds maximum value: 100
+    
+    println("the min value is ${numbers.minOrNull()}") // Finds minimum value: 4
+    
+    println("the sum is ${numbers.sumOf{it*2}}") // Sums doubled values: (6*2)+(10*2)+(14*2)+(4*2)+(100*2)=268
+}
+```
