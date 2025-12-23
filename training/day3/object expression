@@ -1,3 +1,4 @@
+```kotlin
 // object expression
 //Object expressions are used to create anonymous objects (objects without a name)
 // that can extend classes or implement interfaces on the fly
@@ -28,3 +29,4 @@ class ClickListener() : OnClickListener {
 interface OnClickListener {
     fun onClick()
 }
+```kotlin
