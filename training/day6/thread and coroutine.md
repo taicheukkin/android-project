@@ -143,76 +143,7 @@ suspend fun concurrentTasks() = coroutineScope {
 }
 ```
 
-### Sequential vs Concurrent
-```kotlin
-// SEQUENTIAL (takes 3 seconds)
-suspend fun sequential() {
-    delay(1000) // waits 1s
-    delay(2000) // waits 2s more
-}
 
-// CONCURRENT (takes 2 seconds)
-suspend fun concurrent() = coroutineScope {
-    launch { delay(1000) } // runs in parallel
-    launch { delay(2000) } // runs in parallel
-    // Total time = max(1s, 2s) = 2s
-}
-```
-
----
-
-## 5. Parent & Child Coroutines
-
-### **Hierarchy Example**
-```kotlin
-fun main() = runBlocking { // Root/Parent coroutine
-    println("Parent coroutine: ${coroutineContext[Job]}")
-    
-    launch { // Child 1
-        println("Child 1 started")
-        
-        launch { // Grandchild of root
-            println("Grandchild coroutine")
-        }
-    }
-    
-    launch { // Child 2
-        println("Child 2 started")
-    }
-}
-```
-
-### **Key Behaviors:**
-
-1. **Cancellation Propagation**
-```kotlin
-val parentJob = launch {
-    val child1 = launch {
-        delay(1000)
-        println("Child 1 done") // Won't execute
-    }
-    
-    val child2 = launch {
-        delay(2000)
-        println("Child 2 done") // Won't execute
-    }
-}
-
-delay(500)
-parentJob.cancel() // Cancels ALL children automatically
-```
-
-2. **Exception Propagation**
-```kotlin
-val handler = CoroutineExceptionHandler { _, exception ->
-    println("Caught $exception")
-}
-
-val parent = CoroutineScope(handler).launch {
-    launch { // Child
-        throw RuntimeException("Child failed!") 
-        // This cancels parent and all siblings
-    }
     
     launch {
         delay(1000)
@@ -221,14 +152,6 @@ val parent = CoroutineScope(handler).launch {
 }
 ```
 
-3. **Parent Waits for Children**
-```kotlin
-coroutineScope { // Parent scope
-    launch { delay(1000); println("Child 1") }
-    launch { delay(2000); println("Child 2") }
-} // Parent completes only after ALL children complete
-println("All children completed!")
-```
 
 ### **Visualizing Your App Architecture:**
 
