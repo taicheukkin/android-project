@@ -9,13 +9,91 @@
   - `launch` - throws exceptions immediately to parent
   - `async` - defers exceptions until `await()` is called
 
-### **Handlers:**
+# **Coroutine Exception Handler - Short Summary**
+
+## **What is it?**
+A **global catcher** for unhandled exceptions in coroutines.
+
+## **Syntax:**
 ```kotlin
 val handler = CoroutineExceptionHandler { _, exception ->
     println("Caught: $exception")
 }
 ```
 
+## **Usage:**
+```kotlin
+val scope = CoroutineScope(Dispatchers.IO + handler)
+
+scope.launch {  // Uses handler
+    throw RuntimeException("Boom!")
+}
+```
+
+## **Key Rules:**
+1. **Only works on root coroutines** (top-level `launch` or `async`)
+2. **Doesn't catch** child coroutine exceptions directly
+3. **Must be installed** in coroutine context
+4. **Use with `SupervisorJob`** to isolate failures
+
+## **When to use:**
+- Global error logging
+- Crash reporting
+- Graceful failure handling
+
+## **Simple Example:**
+```kotlin
+runBlocking {
+    val handler = CoroutineExceptionHandler { _, e ->
+        println("Global error: ${e.message}")
+    }
+    
+    val job = GlobalScope.launch(handler) {
+        throw Exception("Failed!")
+    }
+    
+    job.join() // Prints: "Global error: Failed!"
+}
+```
+
+## **SupervisorScope:**
+```kotlin
+supervisorScope {
+    launch { /* Child 1 - failure won't cancel siblings */ }
+    launch { /* Child 2 - isolated from Child 1 errors */ }
+}
+```
+
+## **Key Differences:**
+| Aspect | **Regular Scope** | **SupervisorScope** |
+|--------|-------------------|---------------------|
+| **Failure Propagation** | Child fails → cancels all | Child fails → only that child |
+| **Error Handling** | Handler catches root failures | Each child handles own errors |
+| **Use Case** | All-or-nothing tasks | Independent parallel tasks |
+
+## **Handler + SupervisorScope Pattern:**
+```kotlin
+val handler = CoroutineExceptionHandler { _, e ->
+    println("Root error: $e")
+}
+
+CoroutineScope(handler).launch {
+    supervisorScope {  // Isolate children
+        launch {
+            throw Exception("Child 1 fails")  // Doesn't cancel others
+        }
+        launch {
+            delay(100)
+            println("Child 2 still runs!")  // ✅ Continues
+        }
+    }
+}
+```
+
+## **When to Use:**
+- **Handler**: Global error logging at root level
+- **SupervisorScope**: Independent tasks (UI updates, parallel APIs)
+- **Together**: Robust parallel processing with centralized error tracking
 ---
 
 ## **`cancel()` - Request Cancellation**
