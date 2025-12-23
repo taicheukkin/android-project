@@ -1,3 +1,5 @@
+```kotlin
+
 fun main(args: Array<String>) {
     val name1 = "Alex"
     val name2 = "Alex"
@@ -40,4 +42,4 @@ data class User(var firstName: String, var lastName: String, var age: Int) {
 //    override fun toString(): String {
 //        return("User(firstName='$firstName', lastName='$lastName', age=$age)")
 //    }
-}
+} ```kotlin
