@@ -1,5 +1,4 @@
-``kotlin
-
+```kotlin
 // interface allow implementation of function specific to the object
 //  implement onclick function specific to the UI
 // create function that is commonly shared in different class
