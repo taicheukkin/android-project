@@ -1,3 +1,5 @@
+
+```kotlin
 //delegation
 // with delegation , you can plug in more the one inheritance
 // from multiple clas or interface
@@ -71,3 +73,4 @@ class Phone(battery: Battery) : Battery by battery {
     }
 }
 
+```kotlin
