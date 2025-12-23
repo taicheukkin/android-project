@@ -24,7 +24,7 @@ class Truck : Vehicle {
     override fun start() {
         println("Truck started")
     }
-
+```kotlin
     override fun stop() {
         println("Truck stopped")
     }
