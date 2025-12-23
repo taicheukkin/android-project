@@ -1,3 +1,4 @@
+```kotlin
 // new class may slight different from the origin class
 // you can inherit all property and function from origin class
 fun main(args:Array<String>) {
@@ -41,3 +42,4 @@ class Plane( name:String, color:String,val engine :Int , val doors:Int): vehicle
 //        println("$name is stopped")}
     // doesn't make sense to put here
 }
+``kotlin
