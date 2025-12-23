@@ -1,3 +1,4 @@
+```kotlin
 // sealed class
 
 
@@ -33,3 +34,4 @@ sealed class Result(val message: String) {
         class Unrecoverable(message: String) : Error(message)
     }
 }
+```kotlin
