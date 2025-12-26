@@ -126,6 +126,8 @@ Android Virtual Device = Software emulator that mimics:
    - Try different mirror site
 
 ## **After Creation:**
+<img width="592" height="561" alt="image" src="https://github.com/user-attachments/assets/36920a59-0948-43c2-b94d-fd4daa8dc54a" />
+
 - Click **Play button (▶)** to start emulator
 - First boot takes 2-5 minutes
 - Subsequent starts: 30-60 seconds
